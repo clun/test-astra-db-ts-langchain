@@ -2,15 +2,16 @@
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { AstraDBVectorStore, AstraLibArgs } from "@langchain/community/vectorstores/astradb";
 
 // Constants and Environment Variables
-const FILE_PATH = "./dataset";
+const FILE_PATH = "./datasets";
 const OPENAI_API_KEY = process.env['OPENAI_API_KEY'];
 
 /**
  * Load and split documents from the local directory.
+ * 
  * @returns {Promise<Array<Document>>} An array of split documents.
  */
 async function loadDocs() {
@@ -30,13 +31,14 @@ async function loadDocs() {
 }
 
 // Load documents and handle any errors
-loadDocs().catch(error => console.error('Failed to load documents:', error));
+//loadDocs().catch(error => console.error('Failed to load documents:', error));
 
 // Variable to store the vector store promise
-let vectorStorePromise;
+let vectorStorePromise: Promise<AstraDBVectorStore>;
 
 /**
  * Initialize and get the vector store as a promise.
+ * 
  * @returns {Promise<AstraDBVectorStore>} A promise that resolves to the AstraDBVectorStore.
  */
 export async function getVectorStore() {
@@ -70,9 +72,9 @@ async function initVectorStore() {
 // If the collection does not exist, it is created automatically.
 function getAstraConfig() {
   return {
-    token: 'change_me' as string,
-    endpoint: 'https://309a69e5-6296-4a28-b367-86f69b92e38f-europe-west4.apps.astra-dev.datastax.com' as string,
-    collection: 'demo-ts' ?? "vector_test",
+    token: process.env.ASTRA_DB_APPLICATION_TOKEN as string,
+    endpoint: process.env.ASTRA_DB_API_ENDPOINT as string,
+    collection: process.env.ASTRA_DB_COLLECTION ?? "vector_test",
     collectionOptions: {
       vector: {
         dimension: 1536,
@@ -83,3 +85,4 @@ function getAstraConfig() {
 }
 
 
+getVectorStore().catch(error => console.error('Failed to run query:', error));

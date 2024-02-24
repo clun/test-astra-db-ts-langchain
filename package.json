@@ -1,13 +1,25 @@
 {
-    "name": "test-cedrick",
-    "version": "1.0.0",
-    "private": true,
-    "dependencies": {
-        "@datastax/astra-db-ts": "^0.1.4",
-        "@types/node": "^20.8.10",
-        "langchain": "^0.1.1",
-        "openai": "^4.20.0",
-        "ts-node": "^10.9.1",
-        "typescript": "5.2.2"
-    }
+  "name": "demo-astra-ts",
+  "version": "1.0.0",
+  "description": "Demo Capabilities",
+  "main": "app.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "start:app": "ts-node src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@datastax/astra-db-ts": "^0.1.4",
+    "@langchain/openai": "^0.0.10",
+    "langchain": "^0.1.1",
+    "openai": "^4.28.0",
+    "tsx": "^4.7.1"
+  }
 }
